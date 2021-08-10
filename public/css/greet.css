@@ -1,0 +1,50 @@
+body{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background-color: rgb(238, 186, 196);
+}
+.container{
+  margin: 0 auto;
+  text-align: center;
+  background-color: rgb(245, 176, 190);
+  width: 50%;
+  padding: 1px;
+  border: 1px solid rgb(214, 125, 147);
+  
+}
+ .container .heading{
+  background-color: white;
+  padding: 10px;
+  color: rgb(204, 150, 161);
+}
+input , button{
+  padding: 5px;
+  border-radius: 25em;
+  background-color: white;
+  color: black;
+}
+.counter {
+  padding: 2px;
+}
+.textBox, .radioButtons, .clickButtons{
+  padding: 20px;
+}
+.message{
+  padding: 10px;
+  text-transform: capitalize;
+}
+.warning{
+  color: crimson;
+}
+@media (max-width: 800px){
+.container{
+  display: block;
+  width: 100%;
+  padding: 1px;
+}
+.textBox{
+  display: flex;
+  flex-direction: column;
+  float: inline-start;
+  flex-wrap: nowrap;
+}
+}
