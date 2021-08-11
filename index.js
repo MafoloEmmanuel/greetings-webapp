@@ -1,6 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const greetInsta = GreetingEvent()
+//const greetInsta = GreetingEvent()
 const app = express();
 
 const handlebarSetup = exphbs({
@@ -16,13 +16,8 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3012;
 app.get("/", function(req,res){
-    res.render("index", {
-        setName: greetInsta.setName(),
-        greetMe: greetInsta.getNameAndLanguage(),
-    });
-})    
-
-
+    res.render("index");
+})  
 
 app.post('/greetings', function(req,res){
 })
