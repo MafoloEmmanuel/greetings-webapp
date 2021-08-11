@@ -1,4 +1,4 @@
-function GreetingEvent(greetedList) {
+module.exports = function GreetingEvent(greetedList) {
     var greetedNames =greetedList || [];
     function getNameAndLanguage(name, myLanguage) {
         if (myLanguage === "english") {
