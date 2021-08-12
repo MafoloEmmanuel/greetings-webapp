@@ -14,39 +14,44 @@
         <div class="heading">
             <h1>G R E E T I N G S</h1>
         </div>
-        <form action="/greetings" method="post">
-        <div class="warning"><span class="warningMessage"></span></div>
-        <div class="textBox">
+        <form action="/greetings" method="POST">
+            <div class="warning"><span class="warningMessage"></span></div>
+            <div class="textBox">
+                <input type="text" name="user" value="{{user}}" placeholder="please enter a name"
+                    class="nameTextBox" size="40">
+                        <span class="counter">{{getCounter}}</span>
+            </div>
 
-            <input type="text" name="" value="" placeholder="please enter a name" class="nameTextBox" size="40">
+            <div class="radioButtons">
+                <label>
+                    <input type="radio" name="language" class="languageRadioName" value="english">
+                    <span class="languages">English</span>
+                </label>
+                <label>
+                    <input type="radio" name="language" class="languageRadioName" value="sepedi">
+                    <span class="languages">Sepedi</span>
+                </label>
+                <label>
+                    <input type="radio" name="language" class="languageRadioName" value="zulu">
+                    <span class="languages">Isizulu</span>
+                </label>
 
-            <span class="counter">0</span>
+            </div>
+            <div class="clickButtons">
+                <button class="greetNameBtn" type="submit" name="button">Greet Me</button>
+                <button class="resetButton" type="button" name="button">Reset counter</button>
 
-        </div>
+            </div>
+            <div class="message">
+                <strong><span class="myGreetings">{{getGreetings}}</span></strong>
+            </div>
+            <form action="/greeted" method="POST">
+            
+              <h5>Names already greeted:{{greetedNames}}</h5>
+            </form>
+
+            
         </form>
-        
-        <div class="radioButtons">
-            <label>
-                <input type="radio" name="languageRadio" class="languageRadioName" value="english">
-                <span class="languages">English</span>
-            </label>
-            <label>
-                <input type="radio" name="languageRadio" class="languageRadioName" value="sepedi">
-                <span class="languages">Sepedi</span>
-            </label>
-            <label>
-                <input type="radio" name="languageRadio" class="languageRadioName" value="zulu">
-                <span class="languages">Isizulu</span>
-            </label>
-        </div>
-        <div class="clickButtons">
-            <button class="greetNameBtn" type="button" name="button">Greet Me</button>
-            <button class="resetButton" type="button" name="button">Reset counter</button>
-
-        </div>
-        <div class="message">
-            <strong><span class="myGreetings"></span></strong>
-        </div>
     </div>
 
 
