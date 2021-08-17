@@ -1,73 +1,74 @@
 module.exports = function GreetingEvent() {
-    var greetedNames =  [] ;
-    var lang
-    var name
-    var user
-    function displayGreetings(name, myLanguage) {
-        if (myLanguage === "english") {
-            return "Hello, " + name;
-        } else if (myLanguage === "sepedi") {
-            return "Dumela, " + name;
-        } else if (myLanguage === "zulu") {
-            return "Sawubona, " + name;
-        }
-    }
+    var greetedNames = [];
+    var lang;
+    var user;
+    var message; 
+    var regExp = /^[a-zA-Z]{1,15}$/gi;
+
     function setName(userName) {
-         user= userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
+        if (userName.match(regExp)) {
+            user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
+            if (!greetedNames.includes(user)) {
+                greetedNames.push(user)
+            }
+        } 
     }
-    function getName(){
+    function getName() {
         console.log(user)
-         return user;
-     }
-   
-    function checkGreetedNames(){
-        if(!greetedNames.includes(user)){
-            greetedNames.push(user)  
-            console.log(greetedNames)  
+
+        return user;
+    }
+
+    function checkGreetedNames() {
+        if (!greetedNames.includes(user)) {
+            greetedNames.push(user)
         }
     }
-    function getGreetedNames(){
-        
+    function getGreetedNames() {
+
         console.log(greetedNames)
         return greetedNames;
     }
-    function setLanguage(language){
-        if(language=== "english"){
+    function setLanguage(language) {
+        if (language === "english") {
             lang = "Hello";
-        } else if (language==="sepedi"){
+        } else if (language === "sepedi") {
             lang = "Dumela";
-        } else if (language==="xulu"){
+        } else if (language === "xulu") {
             lang = "Sawubona"
         }
     }
-    function getLanguage(){
+    function getLanguage() {
         return lang;
     }
-    
-    
-function greetingsMessage(){
-    return getLanguage() + ", " + getName()
-}
+
+    function greetingsMessage() {
+        return message;
+    }
+    function setGreetingsMessage(){
+        message = getLanguage() + ", " + getName();
+    }
     function getCounter() {
-        
+
         return greetedNames.length
-    } 
-    function reset(){
-        greetedNames=[];
+    }
+    function reset() {
+        greetedNames = [];
     }
     return {
-        displayGreetings,
+        //  displayGreetings,
         setName,
         getCounter,
         getName,
         reset,
         setLanguage,
         getLanguage,
+        setGreetingsMessage,
         greetingsMessage,
         checkGreetedNames,
         getGreetedNames,
         //setCounter
     }
-    
+
 }
 
