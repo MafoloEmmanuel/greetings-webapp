@@ -11,12 +11,11 @@ module.exports = function GreetingEvent() {
             if (!greetedNames.includes(user)) {
                 greetedNames.push(user)
             }
-        } 
+        }
     }
     function getName() {
-        //console.log(user)
-
         return user;
+
     }
 
     function checkGreetedNames() {
@@ -45,12 +44,16 @@ module.exports = function GreetingEvent() {
     function greetingsMessage() {
         return message;
     }
-    function setGreetingsMessage(){
+    function setGreetingsMessage() {
         message = getLanguage() + ", " + getName();
+        
     }
     function getCounter() {
+        if (greetedNames != null) {
+            return greetedNames.length
+        }
 
-        return greetedNames.length
+
     }
     function reset() {
         greetedNames = [];
