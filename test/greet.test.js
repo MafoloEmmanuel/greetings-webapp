@@ -5,18 +5,18 @@ describe('Greetings with routes testing', function(){
     describe("Greeting a name in three different languages", function () {
         it('Should greet a person in English', function () {
             let greeting = GreetingEvent();
-            greeting.getNameAndLanguage('Imma', 'english');
-            assert.equal("Hello, Imma", greeting.getNameAndLanguage('Imma', 'english'));
+            greeting.setLanguage('english');
+            assert.equal("Hello", greeting.getLanguage());
         });
         it('Should greet a person in Sepedi', function () {
             let greeting = GreetingEvent();
-            greeting.getNameAndLanguage('Imma', 'sepedi');
-            assert.equal("Dumela, Imma", greeting.getNameAndLanguage('Imma', 'sepedi'));
+            greeting.setLanguage('sepedi');
+            assert.equal("Dumela", greeting.getLanguage());
         });
         it('Should greet a person in Isizulu', function () {
             let greeting = GreetingEvent();
-            greeting.getNameAndLanguage('Imma', 'zulu');
-            assert.equal("Sawubona, Imma", greeting.getNameAndLanguage('Imma', 'zulu'));
+            greeting.setLanguage('zulu');
+            assert.equal("Sawubona", greeting.getLanguage());
         });
     });
     describe('Check the names greeted', function () {

@@ -52,9 +52,8 @@ greetInsta.checkGreetedNames(req.body.greetedNames)
 res.render('greeted',{
     greetedNames: greetInsta.getGreetedNames()
 } )
-
-
 })
+
 const PORT = process.env.PORT || 3012;
 
 app.listen(PORT, function() {

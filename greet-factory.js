@@ -2,7 +2,7 @@ module.exports = function GreetingEvent() {
     var greetedNames = [];
     var lang;
     var user;
-    var message; 
+    var message;
     var regExp = /^[a-zA-Z]{1,15}$/gi;
 
     function setName(userName) {
@@ -14,7 +14,7 @@ module.exports = function GreetingEvent() {
         } 
     }
     function getName() {
-        console.log(user)
+        //console.log(user)
 
         return user;
     }
@@ -26,7 +26,7 @@ module.exports = function GreetingEvent() {
     }
     function getGreetedNames() {
 
-        console.log(greetedNames)
+        //console.log(greetedNames)
         return greetedNames;
     }
     function setLanguage(language) {
@@ -34,7 +34,7 @@ module.exports = function GreetingEvent() {
             lang = "Hello";
         } else if (language === "sepedi") {
             lang = "Dumela";
-        } else if (language === "xulu") {
+        } else if (language === "zulu") {
             lang = "Sawubona"
         }
     }
