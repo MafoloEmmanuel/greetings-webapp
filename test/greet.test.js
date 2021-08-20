@@ -2,7 +2,7 @@ const assert = require('assert');
 const GreetingEvent = require('../greet-factory');
 
 describe('Greetings with routes testing', function(){
-    describe("Greeting a name in three different languages", function () {
+    describe("Greeting in three different languages", function () {
         it('Should greet a person in English', function () {
             let greeting = GreetingEvent();
             greeting.setLanguage('english');
