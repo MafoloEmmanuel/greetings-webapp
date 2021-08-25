@@ -69,9 +69,9 @@ module.exports = function GreetingEvent() {
 
     }
     function getCounter() {
-        if (greetedNames !== null) {
+    
             return greetedNames.length
-        }
+        
 
 
     }

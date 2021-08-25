@@ -6,17 +6,17 @@ describe('Greetings with routes testing', function(){
         it('Should greet a person in English', function () {
             let greeting = GreetingEvent();
             greeting.setLanguage('english');
-            assert.equal("Hello", greeting.getLanguage());
+            assert.equal("Hello ", greeting.getLanguage());
         });
         it('Should greet a person in Sepedi', function () {
             let greeting = GreetingEvent();
             greeting.setLanguage('sepedi');
-            assert.equal("Dumela", greeting.getLanguage());
+            assert.equal("Dumela ", greeting.getLanguage());
         });
         it('Should greet a person in Isizulu', function () {
             let greeting = GreetingEvent();
             greeting.setLanguage('zulu');
-            assert.equal("Sawubona", greeting.getLanguage());
+            assert.equal("Sawubona ", greeting.getLanguage());
         });
     });
     describe('Check the names greeted', function () {
