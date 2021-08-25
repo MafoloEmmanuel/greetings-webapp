@@ -71,8 +71,6 @@ module.exports = function GreetingEvent() {
     function getCounter() {
     
             return greetedNames.length
-        
-
 
     }
     function reset() {

@@ -39,22 +39,31 @@ app.get("/", function (req, res) {
 
 app.post('/greetings', function (req, res) {
 
-    if (!greetInsta.setLanguage(req.body.language)) {
+    if (!req.body.language) {
         req.flash('info', 'Please select a language')
 
         console.log('language')
-    } else if (!greetInsta.setName(req.body.user)) {
-        req.flash('info', 'Please enter a name!')
-        
-    } else {
-        greetInsta.setGreetingsMessage()
+    res.redirect('/')
 
-    }
+    }else if(!req.body.user){
+        req.flash('info', 'Please enter a name!')
+    res.redirect('/')
+
+        
+    } else if(!req.body.user.match(/^[a-zA-Z]{1,15}$/gi)) {
+        req.flash('info', 'Please enter a valid name!')
     res.redirect('/')
 
 
-})
+    } else {
+        greetInsta.setName(req.body.user);
+        greetInsta.setLanguage(req.body.language);
+        greetInsta.setGreetingsMessage();
+    res.redirect('/')
 
+    }
+
+})
 app.get('/greeted', (req, res) => {
     greetInsta.checkGreetedNames(req.body.greetedNames)
 
