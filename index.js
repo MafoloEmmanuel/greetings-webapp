@@ -42,6 +42,7 @@ app.post('/greetings', function (req, res) {
     if (!req.body.language) {
         req.flash('info', 'Please select a language')
 
+     
         console.log('language')
     res.redirect('/')
 
@@ -62,6 +63,7 @@ app.post('/greetings', function (req, res) {
     res.redirect('/')
 
     }
+    
 
 })
 app.get('/greeted', (req, res) => {
@@ -72,7 +74,7 @@ app.get('/greeted', (req, res) => {
     })
 })
 app.get('/counter/username', (req,res) => {
-    
+
 })
 
 const PORT = process.env.PORT || 3012;
