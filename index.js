@@ -71,6 +71,9 @@ app.get('/greeted', (req, res) => {
         greetedNames: greetInsta.getGreetedNames()
     })
 })
+app.get('/counter/username', (req,res) => {
+    
+})
 
 const PORT = process.env.PORT || 3012;
 
