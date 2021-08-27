@@ -16,6 +16,9 @@ body{
   padding: 10px;
   color: rgb(204, 150, 161);
 }
+ul{
+  list-style: none;
+}
 input , button{
   padding: 5px;
   border-radius: 25em;

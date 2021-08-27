@@ -38,32 +38,26 @@ app.get("/", function (req, res) {
 })
 
 app.post('/greetings', function (req, res) {
+    if (!req.body.language && !req.body.user) {
+        req.flash('info', "Please enter a name and select a language!");
+        res.redirect('/');
+    } else if (!req.body.language) {
+        req.flash('info', 'Please select a language');
+        res.redirect('/');
 
-    if (!req.body.language) {
-        req.flash('info', 'Please select a language')
-
-     
-        console.log('language')
-    res.redirect('/')
-
-    }else if(!req.body.user){
-        req.flash('info', 'Please enter a name!')
-    res.redirect('/')
-
-        
-    } else if(!req.body.user.match(/^[a-zA-Z]{1,15}$/gi)) {
-        req.flash('info', 'Please enter a valid name!')
-    res.redirect('/')
-
-
+    } else if (!req.body.user) {
+        req.flash('info', 'Please enter a name!');
+        res.redirect('/');
+    } else if (!req.body.user.match(/^[a-zA-Z]{1,15}$/gi)) {
+        req.flash('info', 'Please enter a valid name!');
+        res.redirect('/');
     } else {
         greetInsta.setName(req.body.user);
         greetInsta.setLanguage(req.body.language);
         greetInsta.setGreetingsMessage();
-    res.redirect('/')
-
+        res.redirect('/');
     }
-    
+
 
 })
 app.get('/greeted', (req, res) => {
@@ -73,7 +67,20 @@ app.get('/greeted', (req, res) => {
         greetedNames: greetInsta.getGreetedNames()
     })
 })
-app.get('/counter/username', (req,res) => {
+app.get('/counter/:greetedPerson', (req, res) => {
+    const greetedPerson = req.params.greetedPerson
+    const userCounter = {};
+
+if (!userCounter[req.body.user]) {
+     userCounter[req.body.user]
+}
+userCounter[req.body.user]++;
+
+    res.render('usernameGreeted', {
+        greetedPerson: greetInsta.getName(greetedPerson),
+        counter: greetInsta.getCounter(userCounter),
+        
+    })
 
 })
 
