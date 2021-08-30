@@ -13,10 +13,10 @@
         <div class="heading">
             <h1> Greeted Names</h1>
         </div>
-        {{#each greetedPerson }}
+        {{#each greetedNames }}
            <ul>
-            <li> <a href="/counter/{{greetedNames}}">
-                    {{greetedNames}}
+            <li> <a href="/counter/{{@key}}">
+                    {{@key}}
                 </a>
             </li>
         </ul>

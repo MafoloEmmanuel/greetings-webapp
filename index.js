@@ -61,7 +61,7 @@ app.post('/greetings', function (req, res) {
 
 })
 app.get('/greeted', (req, res) => {
-    greetInsta.checkGreetedNames(req.body.greetedNames)
+  //  greetInsta.checkGreetedNames(req.body.greetedNames)
 
     res.render('greeted', {
         greetedNames: greetInsta.getGreetedNames()
@@ -69,11 +69,11 @@ app.get('/greeted', (req, res) => {
 })
 app.get('/counter/:greetedPerson', (req, res) => {
     const greetedPerson = req.params.greetedPerson
-   
+    
 
     res.render('usernameGreeted', {
-        greeted: greetInsta.getName(greetedPerson),
-        getCounter: greetInsta.countEach()
+        greeted: greetedPerson,
+        getCounter: greetInsta.countEach(greetedPerson)
         
     })
 

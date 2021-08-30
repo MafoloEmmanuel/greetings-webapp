@@ -1,5 +1,5 @@
 module.exports = function GreetingEvent() {
-    var greetedNames = [];
+    var greetedNames = {};
     var lang;
     var user;
     var message;
@@ -8,9 +8,12 @@ module.exports = function GreetingEvent() {
     function setName(userName) {
         if (userName.match(regExp)) {
             user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
-            if (!greetedNames.includes(user)) {
-                greetedNames.push(user);
+            if (!greetedNames[user] === undefined) {
+                greetedNames[user]=1;
                 console.log({ user })
+                return true;
+            } else{
+                greetedNames[user] +=1;
                 return true;
             }
         } return false;
@@ -52,11 +55,11 @@ module.exports = function GreetingEvent() {
          console.log({ message })
     }
     function getCounter() {
-            return greetedNames.length
+        const counterObject = Object.getOwnPropertyNames(greetedNames)
+        return counterObject.length
     }
-    function countEach(){
-           const count = {};
-          
+    function countEach(name){
+        return greetedNames[name]
     }
     function reset() {
         greetedNames = [];
