@@ -38,11 +38,11 @@ app.get("/", function (req, res) {
 })
 
 app.post('/greetings', function (req, res) {
-    if (!req.body.language && !req.body.user) {
+    if(!(req.body.language && req.body.user)) {
         req.flash('info', "Please enter a name and select a language!");
         res.redirect('/');
     } else if (!req.body.language) {
-        req.flash('info', 'Please select a language');
+        req.flash('info', 'Please select a language!');
         res.redirect('/');
 
     } else if (!req.body.user) {

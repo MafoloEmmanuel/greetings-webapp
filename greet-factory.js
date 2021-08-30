@@ -4,11 +4,10 @@ module.exports = function GreetingEvent() {
     var user;
     var message;
     var regExp = /^[a-zA-Z]{1,15}$/gi;
-    var error;
     function setName(userName) {
         if (userName.match(regExp)) {
             user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
-            if (!greetedNames[user] === undefined) {
+            if (greetedNames[user] === undefined) {
                 greetedNames[user]=1;
                 console.log({ user })
                 return true;
@@ -20,14 +19,6 @@ module.exports = function GreetingEvent() {
     }
     function getName() {
         return user;
-    }
-    function getErrors() {
-        return error;
-    }
-    function checkGreetedNames() {
-        if (!greetedNames.includes(user)) {
-            greetedNames.push(user)
-        }
     }
 
     function getGreetedNames() {
@@ -62,7 +53,7 @@ module.exports = function GreetingEvent() {
         return greetedNames[name]
     }
     function reset() {
-        greetedNames = [];
+        greetedNames = {};
     }
     return {
         countEach,
@@ -74,9 +65,9 @@ module.exports = function GreetingEvent() {
         getLanguage,
         setGreetingsMessage,
         greetingsMessage,
-        checkGreetedNames,
+       // checkGreetedNames,
         getGreetedNames,
-        getErrors,
+        //getErrors,
     }
 
 }
