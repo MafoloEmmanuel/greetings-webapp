@@ -13,16 +13,15 @@
         <div class="heading">
             <h1> Greeted Names</h1>
         </div>
-          <ul>
+        {{#each greetedPerson }}
+           <ul>
             <li> <a href="/counter/{{greetedNames}}">
                     {{greetedNames}}
                 </a>
             </li>
         </ul>
-         <div class="clickButtons">
-       
-
-            </div>
+    {{/each}}
+        
     </div>
 </body>
 

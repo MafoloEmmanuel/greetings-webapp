@@ -69,16 +69,11 @@ app.get('/greeted', (req, res) => {
 })
 app.get('/counter/:greetedPerson', (req, res) => {
     const greetedPerson = req.params.greetedPerson
-    const userCounter = {};
-
-if (!userCounter[req.body.user]) {
-     userCounter[req.body.user]
-}
-userCounter[req.body.user]++;
+   
 
     res.render('usernameGreeted', {
-        greetedPerson: greetInsta.getName(greetedPerson),
-        counter: greetInsta.getCounter(userCounter),
+        greeted: greetInsta.getName(greetedPerson),
+        getCounter: greetInsta.countEach()
         
     })
 

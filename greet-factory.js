@@ -26,6 +26,7 @@ module.exports = function GreetingEvent() {
             greetedNames.push(user)
         }
     }
+
     function getGreetedNames() {
         return greetedNames;
     }
@@ -53,10 +54,15 @@ module.exports = function GreetingEvent() {
     function getCounter() {
             return greetedNames.length
     }
+    function countEach(){
+           const count = {};
+          
+    }
     function reset() {
         greetedNames = [];
     }
     return {
+        countEach,
         setName,
         getCounter,
         getName,
