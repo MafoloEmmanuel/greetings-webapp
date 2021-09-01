@@ -3,8 +3,25 @@ const exphbs = require('express-handlebars');
 const flash = require('express-flash')
 const session = require('express-session')
 const GreetingEvent = require('./greet-factory')
-const greetInsta = GreetingEvent()
 const app = express();
+
+//connecting to the database
+const {Pool} = require('pg');
+//connect with SSL 
+let useSSL = false;
+let local = process.env.LOCAL || false;
+if(process.env.DATABASE_URL && !local){
+    useSSL = true;
+}
+//choosing a db connection 
+const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:3012/my_products'
+//connect with a connection pool
+    const pool = new Pool({
+        connectionString,
+        ssl: useSSL
+    });
+const greetInsta = GreetingEvent(pool)
+
 
 const handlebarSetup = exphbs({
     partialsDir: "./views/partials",
@@ -37,8 +54,8 @@ app.get("/", function (req, res) {
     })
 })
 
-app.post('/greetings', function (req, res) {
-    if(!(req.body.language && req.body.user)) {
+app.post('/greetings', async function (req, res) {
+    if(!req.body.language && !req.body.user) {
         req.flash('info', "Please enter a name and select a language!");
         res.redirect('/');
     } else if (!req.body.language) {

@@ -17,13 +17,13 @@
         </div>
         <form action="/greetings" method="POST">
             <div class="warning">{{messages.info}}<span class="warningMessage"></span></div>
-           <div class="message">
+            <div class="message">
                 <strong><span class="myGreetings">{{getGreetings}}</span></strong>
             </div>
             <div class="textBox">
-                <input type="text" name="user" value="{{user}}" placeholder="please enter a name"
-                    class="nameTextBox" size="40">
-                        <span class="counter">{{getCounter}}</span>
+                <input type="text" name="user" value="{{user}}" placeholder="please enter a name" class="nameTextBox"
+                    size="40">
+                <span class="counter">{{getCounter}}</span>
             </div>
 
             <div class="radioButtons">
@@ -44,16 +44,15 @@
             <div class="clickButtons">
                 <button class="greetNameBtn" type="submit" name="button">Greet Me</button>
                 <button class="resetButton" type="button" name="button">Reset counter</button>
-
+               
             </div>
-            
-            <form action="/greeted" method="POST">
-
-            <a href="/greeted">Names already greeted</a>
-            </form>
-
-            
         </form>
+         <form action="/greeted" method="get">
+         <div class="clickButtons" >
+                    <button type="submit"> Greeted People
+                    </button>
+                </form>
+                </div>
     </div>
 
 

@@ -9,7 +9,7 @@ module.exports = function GreetingEvent() {
             user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
             if (greetedNames[user] === undefined) {
                 greetedNames[user]=1;
-                console.log({ user })
+              //  console.log({ user })
                 return true;
             } else{
                 greetedNames[user] +=1;
@@ -20,8 +20,23 @@ module.exports = function GreetingEvent() {
     function getName() {
         return user;
     }
+function setErrors(err){
+if(!setName().match(regExp)){
+err = "Please enter a valid name!"
+} else if(setName() === ""){
+    err="Please enter a name!"
+} else if(setLanguage()=== undefined){
+    err="Please select a language!"
+} else if(!setName() && !setLanguage()){
+    err="Please enter a name and select a language!"   
+}
+}
+function getErrors(){
+    return setErrors()
+}
 
     function getGreetedNames() {
+        console.log(greetedNames)
         return greetedNames;
     }
     function setLanguage(language) {
@@ -32,7 +47,7 @@ module.exports = function GreetingEvent() {
         } else if (language === "zulu") {
             lang = "Sawubona "
         }
-        console.log({ lang })
+       // console.log({ lang })
         return lang;
     }
     function getLanguage() {
@@ -43,7 +58,7 @@ module.exports = function GreetingEvent() {
     }
     function setGreetingsMessage() {
             message = getLanguage() + getName();
-         console.log({ message })
+       //  console.log({ message })
     }
     function getCounter() {
         const counterObject = Object.getOwnPropertyNames(greetedNames)
@@ -65,9 +80,9 @@ module.exports = function GreetingEvent() {
         getLanguage,
         setGreetingsMessage,
         greetingsMessage,
-       // checkGreetedNames,
         getGreetedNames,
-        //getErrors,
+        setErrors,
+        getErrors,
     }
 
 }

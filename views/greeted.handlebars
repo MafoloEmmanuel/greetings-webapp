@@ -9,10 +9,13 @@
 </head>
 
 <body>
-    <div class="container">
+       <div class="container">
         <div class="heading">
             <h1> Greeted Names</h1>
         </div>
+       <div class="back">
+            <a href="/">Back</a>
+       </div>
         {{#each greetedNames }}
            <ul>
             <li> <a href="/counter/{{@key}}">
