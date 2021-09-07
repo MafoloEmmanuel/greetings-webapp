@@ -70,7 +70,7 @@ function getErrors(){
       //  return greetedNames[name]
       return result.rows
     }
-    function reset() {
+    async function reset() {
         let result = await pool.query('DELETE  FROM usernames ')
 
         return result.rows

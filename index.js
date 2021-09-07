@@ -85,7 +85,7 @@ app.get('/greeted', async (req, res) => {
         greetedNames: greetedList
     })
 })
-app.get('/counter/:greetedPerson', (req, res) => {
+app.get('/counter/:greetedPerson', async (req, res) => {
     const greetedPerson = req.params.greetedPerson;
     let result = await greetInsta.countEach(greetedPerson)
     res.render('usernameGreeted', {
