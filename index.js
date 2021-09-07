@@ -46,15 +46,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-app.get("/", function (req, res) {
-    console.log(greetInsta.greetingsMessage())
+app.get("/",  async (req, res)=> {
+    let counter = await greetInsta.getCounter()
     res.render("index", {
-        getGreetings: greetInsta.greetingsMessage(),
-        getCounter: greetInsta.getCounter(),
+        getCounter: counter
     })
 })
 
-app.post('/greetings', async function (req, res) {
+app.post('/greetings', async (req, res)=> {
     if(!req.body.language && !req.body.user) {
         req.flash('info', "Please enter a name and select a language!");
         res.redirect('/');
@@ -72,25 +71,26 @@ app.post('/greetings', async function (req, res) {
         greetInsta.setName(req.body.user);
         greetInsta.setLanguage(req.body.language);
         greetInsta.setGreetingsMessage();
-        res.redirect('/');
+
+        res.render('index', {
+            getGreetings: await greetInsta.greetingsMessage(),
+            getCounter: await greetInsta.getCounter()
+        })
     }
 
-
 })
-app.get('/greeted', (req, res) => {
-  //  greetInsta.checkGreetedNames(req.body.greetedNames)
-
+app.get('/greeted', async (req, res) => {
+    let greetedList = await greetInsta.getGreetedNames()
     res.render('greeted', {
-        greetedNames: greetInsta.getGreetedNames()
+        greetedNames: greetedList
     })
 })
 app.get('/counter/:greetedPerson', (req, res) => {
-    const greetedPerson = req.params.greetedPerson
-    
-
+    const greetedPerson = req.params.greetedPerson;
+    let result = await greetInsta.countEach(greetedPerson)
     res.render('usernameGreeted', {
         greeted: greetedPerson,
-        getCounter: greetInsta.countEach(greetedPerson)
+        getCounter: result
         
     })
 

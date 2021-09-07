@@ -1,4 +1,4 @@
-module.exports = function GreetingEvent() {
+module.exports = function GreetingEvent(pool) {
     var greetedNames = {};
     var lang;
     var user;
@@ -35,9 +35,9 @@ function getErrors(){
     return setErrors()
 }
 
-    function getGreetedNames() {
-        console.log(greetedNames)
-        return greetedNames;
+    async function getGreetedNames() {
+        let result = await pool.query('SELECT * FROM usernames ')
+        return result.rows;
     }
     function setLanguage(language) {
         if (language === "english") {
@@ -60,14 +60,21 @@ function getErrors(){
             message = getLanguage() + getName();
        //  console.log({ message })
     }
-    function getCounter() {
-        const counterObject = Object.getOwnPropertyNames(greetedNames)
+    async function getCounter() {
+        let result = await pool.query('SELECT count FROM usernames ')
+        const counterObject = Object.getOwnPropertyNames(greetedNames).count
         return counterObject.length
     }
-    function countEach(name){
-        return greetedNames[name]
+    async function countEach(name){
+        let result = await pool.query('SELECT count FROM usernames WHERE id= $1 ')
+      //  return greetedNames[name]
+      return result.rows
     }
     function reset() {
+        let result = await pool.query('DELETE  FROM usernames ')
+
+        return result.rows
+
         greetedNames = {};
     }
     return {
