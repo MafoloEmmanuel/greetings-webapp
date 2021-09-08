@@ -35,10 +35,11 @@ function getErrors(){
     return setErrors()
 }
 
-    async function getGreetedNames() {
-        let result = await pool.query('SELECT * FROM usernames ')
-        return result.rows;
+    function getGreetedNames() {
+        console.log(greetedNames)
+        return greetedNames;
     }
+    
     function setLanguage(language) {
         if (language === "english") {
             lang = "Hello ";
@@ -60,22 +61,35 @@ function getErrors(){
             message = getLanguage() + getName();
        //  console.log({ message })
     }
-    async function getCounter() {
-        let result = await pool.query('SELECT count FROM usernames ')
-        const counterObject = Object.getOwnPropertyNames(greetedNames).count
+    function getCounter() {
+        const counterObject = Object.getOwnPropertyNames(greetedNames)
         return counterObject.length
     }
-    async function countEach(name){
-        let result = await pool.query('SELECT count FROM usernames WHERE id= $1 ')
-      //  return greetedNames[name]
-      return result.rows
+    function countEach(name){
+        return greetedNames[name]
     }
-    async function reset() {
-        let result = await pool.query('DELETE  FROM usernames ')
-
-        return result.rows
-
+    function reset() {
         greetedNames = {};
+    }
+    // get greeted names using SQL
+    async function getAll(){
+        let result = await pool.query("SELECT * FROM usernames ");
+        return result.rows
+    }
+    // get a count of greeted names using SQL
+    async function getCount(){
+        let result = await pool.query("SELECT count FROM usernames")
+        return result.rows[0].count
+    }
+    //reset the counter 
+    async function resetCounter(){
+        let result = await pool.query("DELETE FROM usernames ");
+        return result.rows
+    }
+    // get a count for each username
+    async function getCountEach(){
+        let result = await pool.query("SELECT count FROM usernames WHERE id=$1");
+        return result.rows
     }
     return {
         countEach,
@@ -90,6 +104,11 @@ function getErrors(){
         getGreetedNames,
         setErrors,
         getErrors,
+
+        getAll,
+        getCountEach,
+        resetCounter,
+        getCount
     }
 
 }
