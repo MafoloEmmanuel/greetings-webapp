@@ -45,7 +45,7 @@ app.use(express.json());
 app.get("/",  async (req, res)=> {
     res.render("index", {
         getGreetings: await greetInsta.greetingsMessage(),
-        getCounter: await greetInsta.getCounter() 
+        getCounter: await greetInsta.getCount() 
     })   
 })
 
