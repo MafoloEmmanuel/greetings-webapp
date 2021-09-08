@@ -79,7 +79,7 @@ function getErrors(){
     // get a count of greeted names using SQL
     async function getCount(){
         let result = await pool.query("SELECT count FROM usernames")
-        return result.rows[0].count
+        return result.rowCount
     }
     //reset the counter 
     async function resetCounter(){

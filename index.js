@@ -8,18 +8,14 @@ const app = express();
 //connecting to the database
 const {Pool} = require('pg');
 //connect with SSL 
-let useSSL 
-let local = process.env.LOCAL || false;
-if(process.env.DATABASE_URL && !local){
-    useSSL = true;
-}
+
 //choosing a db connection 
-const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:3012/usernames'
+const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/usernames'
 //connect with a connection pool
-    const pool = new Pool({
-        connectionString: connectionString,
-        ssl:  { rejectUnauthorized: false }
-    });
+const pool = new Pool({
+    connectionString: connectionString,
+    // ssl:  { rejectUnauthorized: false }
+});
 const greetInsta = GreetingEvent(pool)
 
 
@@ -47,10 +43,10 @@ app.use(express.json());
 
 
 app.get("/",  async (req, res)=> {
-    let counter = await greetInsta.getCount()
     res.render("index", {
-        getCounter: counter
-    })
+        getGreetings: await greetInsta.greetingsMessage(),
+        getCounter: await greetInsta.getCounter() 
+    })   
 })
 
 app.post('/greetings', async (req, res)=> {
@@ -72,10 +68,7 @@ app.post('/greetings', async (req, res)=> {
         greetInsta.setLanguage(req.body.language);
         greetInsta.setGreetingsMessage();
 
-        res.render('index', {
-            getGreetings: await greetInsta.greetingsMessage(),
-            getCounter: await greetInsta.getCount()
-        })
+        res.redirect('/')
     }
 
 })
@@ -95,7 +88,7 @@ app.get('/counter/:greetedPerson', async (req, res) => {
     })
 
 })
-app.post('/reset', (req,res)=>{
+app.post('/reset', async(req,res)=>{
 
 })
 const PORT = process.env.PORT || 3012;
