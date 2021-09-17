@@ -3,12 +3,14 @@ module.exports = (pool) => {
     let regExp = /^[a-zA-Z]{1,15}$/gi;
     let user
     let lang
+    let greetedNames={}
     let saveNames = (async (userName) => {
         await pool.connect();
         if (userName.match(regExp)) {
             user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
                 const setName = await pool.query('insert into usernames(username,count) values($1,$2)', [user, "1"])
                 const seeNames = await pool.query('select * from usernames');
+               
                 // console.log(result.rowCount);
                 console.log(setName.rows)
                 console.log(seeNames.rows)
@@ -32,6 +34,7 @@ module.exports = (pool) => {
         return lang;
     }
     let countNames = async () => {
+    
         let result = await pool.query('select id from usernames');
         console.log(result.rowCount);
         return result.rowCount;

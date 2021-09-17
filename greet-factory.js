@@ -87,6 +87,7 @@ function getErrors(){
     }
     function setGreetingsMessage() {
             message = getLanguage() + getName();
+           
        //  console.log({ message })
     }
     function getCounter() {

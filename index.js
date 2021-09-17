@@ -15,27 +15,26 @@ const {Pool}= require('pg');
      database : "codexdb"
 
  })
+ */
  
  let useSSL =false;
  let local = process.env.LOCAL || false;
  if(process.env.DATABASE_URL && !local){
-     useSSL = true;
- }*/
+     useSSL = { rejectUnauthorized: false };
+ }
  //choosing a db connection 
  const connectionString = process.env.DATABASE_URL || 'postgresql://codex:201735469@localhost:5432/codexdb'
  //connect with a connection pool
      const pool = new Pool({
          connectionString: connectionString,
-      //   ssl:  { rejectUnauthorized: false }
+       ssl:  useSSL
      });
 
 
 pool.on('connect', ()=>{
     console.log('connection has started')
 })
-pool.on('end', ()=>{
-    console.log('connection has ended')
-})
+
 const Greetings = require('./Greetings')
 const greetingsInsta = Greetings(pool)
 //const greetInsta = GreetingEvent(client)
@@ -101,8 +100,11 @@ app.post('/greetings', async (req, res)=> {
 app.get('/greeted', async (req, res) => {
 
     res.render('greeted', {
-        greetedNames: await greetingsInsta.nameList()
-    })
+        greetedNames: await greetingsInsta.nameList(),
+        
+    });
+    req.flash("info", "The counter has been reset to zero")
+
 })
 app.get('/counter/:greetedPerson', async (req, res) => {
     const greetedPerson = req.params.greetedPerson;
