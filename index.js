@@ -5,8 +5,9 @@ const session = require('express-session')
 
 const app = express();
 
+
 const {Pool}= require('pg');
- const pool = new Pool({
+ /*const pool = new Pool({
      host: "localhost",
      port : 5432,
      user: "codex",
@@ -14,6 +15,21 @@ const {Pool}= require('pg');
      database : "codexdb"
 
  })
+ 
+ let useSSL =false;
+ let local = process.env.LOCAL || false;
+ if(process.env.DATABASE_URL && !local){
+     useSSL = true;
+ }*/
+ //choosing a db connection 
+ const connectionString = process.env.DATABASE_URL || 'postgresql://codex:201735469@localhost:5432/codexdb'
+ //connect with a connection pool
+     const pool = new Pool({
+         connectionString: connectionString,
+      //   ssl:  { rejectUnauthorized: false }
+     });
+
+
 pool.on('connect', ()=>{
     console.log('connection has started')
 })
