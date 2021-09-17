@@ -2,21 +2,27 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const flash = require('express-flash')
 const session = require('express-session')
-const GreetingEvent = require('./greet-factory')
+
 const app = express();
 
-//connecting to the database
-const {Pool} = require('pg');
-//connect with SSL 
+const {Pool}= require('pg');
+ const pool = new Pool({
+     host: "localhost",
+     port : 5432,
+     user: "codex",
+     password: "201735469",
+     database : "codexdb"
 
-//choosing a db connection 
-const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/usernames'
-//connect with a connection pool
-const pool = new Pool({
-    connectionString: connectionString,
-    // ssl:  { rejectUnauthorized: false }
-});
-const greetInsta = GreetingEvent(pool)
+ })
+pool.on('connect', ()=>{
+    console.log('connection has started')
+})
+pool.on('end', ()=>{
+    console.log('connection has ended')
+})
+const Greetings = require('./Greetings')
+const greetingsInsta = Greetings(pool)
+//const greetInsta = GreetingEvent(client)
 
 
 const handlebarSetup = exphbs({
@@ -42,45 +48,48 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
+
 app.get("/",  async (req, res)=> {
+     let count =await greetingsInsta.countNames();
     res.render("index", {
-        getGreetings: await greetInsta.greetingsMessage(),
-        getCounter: await greetInsta.getCounter() 
+        getCounter:   count
     })   
 })
 
 app.post('/greetings', async (req, res)=> {
     if(!req.body.language && !req.body.user) {
         req.flash('info', "Please enter a name and select a language!");
-        res.redirect('/');
+        res.render('index');
     } else if (!req.body.language) {
         req.flash('info', 'Please select a language!');
-        res.redirect('/');
+        res.render('index');
 
     } else if (!req.body.user) {
         req.flash('info', 'Please enter a name!');
-        res.redirect('/');
+        res.render('index');
     } else if (!req.body.user.match(/^[a-zA-Z]{1,15}$/gi)) {
         req.flash('info', 'Please enter a valid name!');
-        res.redirect('/');
+        res.render('index');
     } else {
-        greetInsta.setName(req.body.user);
-        greetInsta.setLanguage(req.body.language);
-        greetInsta.setGreetingsMessage();
+       await greetingsInsta.saveNames(req.body.user);
+        greetingsInsta.setLanguage(req.body.language);
 
-        res.redirect('/')
+        res.render('index',{
+            getGreetings: greetingsInsta.displayGreetings(),
+            getCounter:   await greetingsInsta.countNames()
+
+        })
+    
     }
-
 })
 app.get('/greeted', async (req, res) => {
-    let greetedList = await greetInsta.getGreetedNames()
+
     res.render('greeted', {
-        greetedNames: greetedList
+        greetedNames: await greetingsInsta.nameList()
     })
 })
 app.get('/counter/:greetedPerson', async (req, res) => {
     const greetedPerson = req.params.greetedPerson;
-    let result = await greetInsta.countEach(greetedPerson)
     res.render('usernameGreeted', {
         greeted: greetedPerson,
         getCounter: result
@@ -89,6 +98,8 @@ app.get('/counter/:greetedPerson', async (req, res) => {
 
 })
 app.post('/reset', async(req,res)=>{
+    await greetingsInsta.deleteNames();
+    res.redirect('/')
 
 })
 const PORT = process.env.PORT || 3012;

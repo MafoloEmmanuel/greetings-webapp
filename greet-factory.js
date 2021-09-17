@@ -1,4 +1,5 @@
-module.exports = function GreetingEvent(pool) {
+
+module.exports = function GreetingEvent(client) {
     var greetedNames = {};
     var lang;
     var user;
@@ -20,6 +21,33 @@ module.exports = function GreetingEvent(pool) {
     function getName() {
         return user;
     }
+
+
+    const saveNames = (async(userName)=>{
+        await client.connect();
+        
+        user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
+            const setName = await client.query('insert into usernames(username) values($1)', [user])
+            //const seeNames = await client.query('select * from usernames');
+            console.log(result.rowCount);
+            console.log(setName.rows)
+            console.log(seeNames.rows)
+        
+            client.end();
+         });
+
+
+
+    
+    //put names into the database
+    async function greetMessage(userName){
+        if(userName.match(regExp)){
+            user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
+            let sqlOne = await pool.query('SELECT * FROM usernames WHERE username = $1', [user])
+        let sqlTwo = await pool.query('INSERT INTO usernames(count, username) VALUES($1,$2)', )
+    let sqlThree = await pool.query('UPDATE usernames SET count = count + 1 WHERE username= $1')
+        }
+            }
 function setErrors(err){
 if(!setName().match(regExp)){
 err = "Please enter a valid name!"
@@ -71,6 +99,7 @@ function getErrors(){
     function reset() {
         greetedNames = {};
     }
+    
     // get greeted names using SQL
     async function getAll(){
         let result = await pool.query("SELECT * FROM usernames ");
@@ -78,7 +107,7 @@ function getErrors(){
     }
     // get a count of greeted names using SQL
     async function getCount(){
-        let result = await pool.query("SELECT count FROM usernames")
+        let result = await pool.query("SELECT id FROM usernames")
         return result.rowCount
     }
     //reset the counter 
@@ -108,7 +137,8 @@ function getErrors(){
         getAll,
         getCountEach,
         resetCounter,
-        getCount
+        getCount,
+        
     }
 
 }
