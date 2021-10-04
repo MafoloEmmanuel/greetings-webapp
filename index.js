@@ -36,7 +36,8 @@ pool.on('connect', ()=>{
 })
 
 const Greetings = require('./Greetings')
-const greetingsInsta = Greetings(pool)
+const greetingsInsta = Greetings(pool);
+
 //const greetInsta = GreetingEvent(client)
 
 
@@ -64,50 +65,60 @@ app.use(express.json());
 
 
 
-app.get("/",  async (req, res)=> {
-     let count =await greetingsInsta.countNames();
+app.get("/",async (req, res)=> {
+     let count = await greetingsInsta.countUsers();
     res.render("index", {
         getCounter:   count
     })   
 })
 
-app.post('/greetings', async (req, res)=> {
-    if(!req.body.language && !req.body.user) {
+app.post('/greetings',  async(req, res)=> {
+   try{ let userName=  req.body.user;
+   let language= req.body.language;
+   user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
+
+    if(!language && !user) {
         req.flash('info', "Please enter a name and select a language!");
         res.render('index');
-    } else if (!req.body.language) {
+    } else if (!language) {
         req.flash('info', 'Please select a language!');
         res.render('index');
 
-    } else if (!req.body.user) {
+    } else if (!user) {
         req.flash('info', 'Please enter a name!');
         res.render('index');
-    } else if (!req.body.user.match(/^[a-zA-Z]{1,15}$/gi)) {
+    } else if (!user.match(/^[a-zA-Z]{1,15}$/gi)) {
         req.flash('info', 'Please enter a valid name!');
         res.render('index');
     } else {
-       await greetingsInsta.saveNames(req.body.user);
-        greetingsInsta.setLanguage(req.body.language);
+       let isLanguage= greetingsInsta.setLanguage(language);
+     let count = await greetingsInsta.countUsers();
 
-        res.render('index',{
-            getGreetings: greetingsInsta.displayGreetings(),
-            getCounter:   await greetingsInsta.countNames()
-
-        })
-    
+req.flash('greetingsMessage', isLanguage + " " + userName)
+   res.render('index',{
+       getCounter: count
+   })
     }
+
+}catch(err){
+    console.log(err)
+}
+
+
+
+
 })
 app.get('/greeted', async (req, res) => {
 
     res.render('greeted', {
-        greetedNames: await greetingsInsta.nameList(),
+        greetedNames: await greetingsInsta.getAllUsers(),
         
     });
-    req.flash("info", "The counter has been reset to zero")
 
 })
 app.get('/counter/:greetedPerson', async (req, res) => {
     const greetedPerson = req.params.greetedPerson;
+    let result = await greetingsInsta.nameList(greetedPerson)
     res.render('usernameGreeted', {
         greeted: greetedPerson,
         getCounter: result
@@ -116,7 +127,7 @@ app.get('/counter/:greetedPerson', async (req, res) => {
 
 })
 app.post('/reset', async(req,res)=>{
-    await greetingsInsta.deleteNames();
+    await greetingsInsta.deleteUsers();
     res.redirect('/')
 
 })

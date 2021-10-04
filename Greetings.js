@@ -1,22 +1,7 @@
-
-module.exports = (pool) => {
+module.exports = (pool)=>{
     let regExp = /^[a-zA-Z]{1,15}$/gi;
-    let user
-    let lang
-    let greetedNames={}
-    let saveNames = (async (userName) => {
-        await pool.connect();
-        if (userName.match(regExp)) {
-            user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
-                const setName = await pool.query('insert into usernames(username,count) values($1,$2)', [user, "1"])
-                const seeNames = await pool.query('select * from usernames');
-               
-                // console.log(result.rowCount);
-                console.log(setName.rows)
-                console.log(seeNames.rows)
-        }
-    });
-    function setLanguage(language) {
+var message =''
+    let setLanguage= (language)=> {
         if (language === "english") {
             lang = "Hello ";
         } else if (language === "sepedi") {
@@ -26,45 +11,65 @@ module.exports = (pool) => {
         }
         return lang;
     }
-    let getName = () => {
-        console.log(user)
-        return user
-    }
     let getLanguage = () => {
         return lang;
     }
-    let countNames = async () => {
-    
-        let result = await pool.query('select id from usernames');
-        console.log(result.rowCount);
-        return result.rowCount;
+    let setUser = async(name,language)=>{
+         await pool.query('insert into usernames (username,langauge,count) values ($1,$2,1)',[name,language]);
     }
-
-    let displayGreetings = () => {
-        let message = getLanguage() + getName();
-        return message;
-    }
-    let deleteNames = async()=>{
-        let result = await pool.query('delete from usernames ');
-        console.log(result.rows);
-        console.log(result.rowCount);
-        return result.rows;
-    }
-let nameList = async()=>{
+    let getUser= async(name)=>{
+        let result = await pool.query('select * from usernames where username=$1',[name])
+      return result.rows
+     }
+   let getAllUsers=async()=>{
+       let result = await pool.query("select * from usernames");
+       console.log(result.rows[0])
+       return result.rows;
+   }
+   let countUsers=async()=>{
+       let result = await pool.query('select * from usernames');
+       console.log(result.rowCount);
+       return result.rowCount
+   }
+   
+   let update= async(username,language,count)=>{
+       let result = await pool.query("update usernames set count = $1, language=$2 where username = $1",[count,language,username]);
+       return result.rows.rowCount
+   }
+   let getGreetings=()=>{
+       return getLanguage()+ getUser() 
+   }
+   let nameList = async()=>{
     let names = await pool.query('select username from usernames ');
    console.log(names.rows)
     return names.rows;
 }
-    return {
-        saveNames,
-        getName,
-        countNames,
-        setLanguage,
-        getLanguage,
-        displayGreetings,
-        nameList,
-        deleteNames
+   let deleteUsers= async()=>{
+let result = await pool.query('delete from usernames');
+return result.rows
+
+   }
+  let checkIt=async(username, language) =>{
+    const user = await getUser(username);
+    if (user.length !== 0) {
+        let countIncrease = user[0].count + 1;
+        await update(countIncrease, language, username);
+    } else {
+        await setUser(username, language);
     }
 }
-
-
+   return {
+       setUser,
+       getAllUsers,
+       getUser,
+       countUsers,
+       update,
+       getLanguage,
+       setLanguage,
+       deleteUsers,
+       getGreetings,
+       checkIt,
+       nameList
+       
+   }
+}

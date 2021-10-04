@@ -1,6 +1,31 @@
 const assert = require('assert');
-const GreetingEvent = require('../greet-factory');
+const Greetings = require('../Greetings');
+const pg= require('pg');
+const Pool = pg.Pool;
 
+ //choosing a db connection 
+ const connectionString = process.env.DATABASE_URL || 'postgresql://codex:201735469@localhost:5432/codexdb'
+ //connect with a connection pool
+     const pool = new Pool({
+         connectionString: connectionString,
+     });
+
+
+pool.on('connect', ()=>{
+    console.log('database connection has started')
+})
+
+describe('should get a name', async()=>{
+    it('get name set', async()=>{
+        let greet = Greetings(pool);
+        await greet.setUser('emma'  );
+        
+        let get = await greet.getUser()
+        assert.equal('emma', get)
+
+    })
+})
+/*
 describe('Greetings with routes testing', function(){
     describe("Show greetings in three different languages", function () {
         it('Should greet in English, "Hello "', function () {
@@ -105,3 +130,4 @@ describe('Greetings with routes testing', function(){
     })
    
 })
+*/

@@ -18,12 +18,13 @@
        </div>
         {{#each greetedNames }}
            <ul>
-            <li> <a href="/counter/{{this}}">
-                    {{this}}
+            <li> <a href="/counter/{{this.username}}">
+                    {{this.username}}
                 </a>
             </li>
         </ul>
     {{/each}}
+
         
     </div>
 </body>

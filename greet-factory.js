@@ -1,4 +1,4 @@
-
+const database = require('./database')
 module.exports = function GreetingEvent(client) {
     var greetedNames = {};
     var lang;
@@ -22,47 +22,6 @@ module.exports = function GreetingEvent(client) {
         return user;
     }
 
-
-    const saveNames = (async(userName)=>{
-        await client.connect();
-        
-        user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
-            const setName = await client.query('insert into usernames(username) values($1)', [user])
-            //const seeNames = await client.query('select * from usernames');
-            console.log(result.rowCount);
-            console.log(setName.rows)
-            console.log(seeNames.rows)
-        
-            client.end();
-         });
-
-
-
-    
-    //put names into the database
-    async function greetMessage(userName){
-        if(userName.match(regExp)){
-            user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
-            let sqlOne = await pool.query('SELECT * FROM usernames WHERE username = $1', [user])
-        let sqlTwo = await pool.query('INSERT INTO usernames(count, username) VALUES($1,$2)', )
-    let sqlThree = await pool.query('UPDATE usernames SET count = count + 1 WHERE username= $1')
-        }
-            }
-function setErrors(err){
-if(!setName().match(regExp)){
-err = "Please enter a valid name!"
-} else if(setName() === ""){
-    err="Please enter a name!"
-} else if(setLanguage()=== undefined){
-    err="Please select a language!"
-} else if(!setName() && !setLanguage()){
-    err="Please enter a name and select a language!"   
-}
-}
-function getErrors(){
-    return setErrors()
-}
-
     function getGreetedNames() {
         console.log(greetedNames)
         return greetedNames;
@@ -83,13 +42,9 @@ function getErrors(){
         return lang;
     }
     function greetingsMessage() {
-        return message
+        return getLanguage()+getName()
     }
-    function setGreetingsMessage() {
-            message = getLanguage() + getName();
-           
-       //  console.log({ message })
-    }
+    
     function getCounter() {
         const counterObject = Object.getOwnPropertyNames(greetedNames)
         return counterObject.length
@@ -101,26 +56,6 @@ function getErrors(){
         greetedNames = {};
     }
     
-    // get greeted names using SQL
-    async function getAll(){
-        let result = await pool.query("SELECT * FROM usernames ");
-        return result.rows
-    }
-    // get a count of greeted names using SQL
-    async function getCount(){
-        let result = await pool.query("SELECT id FROM usernames")
-        return result.rowCount
-    }
-    //reset the counter 
-    async function resetCounter(){
-        let result = await pool.query("DELETE FROM usernames ");
-        return result.rows
-    }
-    // get a count for each username
-    async function getCountEach(){
-        let result = await pool.query("SELECT count FROM usernames WHERE id=$1");
-        return result.rows
-    }
     return {
         countEach,
         setName,
@@ -129,18 +64,98 @@ function getErrors(){
         reset,
         setLanguage,
         getLanguage,
-        setGreetingsMessage,
         greetingsMessage,
         getGreetedNames,
-        setErrors,
-        getErrors,
-
-        getAll,
-        getCountEach,
-        resetCounter,
-        getCount,
+        
         
     }
 
 }
+
+module.exports = (pool) => {
+    let regExp = /^[a-zA-Z]{1,15}$/gi;
+    let setName
+    let lang
+    let user
+    let saveNames = (async (userName) => {
+        await pool.connect();
+        if (userName.match(regExp)) {
+           user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
+                setName = await pool.query('insert into usernames(username,count) values($1,1)', [user])
+                const seeNames = await pool.query('select * from usernames');
+                // console.log(result.rowCount);
+                console.log(setName.rows)
+                console.log(seeNames.rows)
+        }
+    
+    });
+
+    let setLanguage= (language)=> {
+        if (language === "english") {
+            lang = "Hello ";
+        } else if (language === "sepedi") {
+            lang = "Dumela ";
+        } else if (language === "zulu") {
+            lang = "Sawubona "
+        }
+        return lang;
+    }
+    let getName =() => {
+    return user;
+    
+    }
+  
+    let getLanguage = () => {
+        return lang;
+    }
+    let countNames = async () => {
+        let nameadded = getName();
+        if(!nameadded){
+            let sql = 'select * from usernames'
+        let result = await pool.query(sql);
+        console.log(result.rowCount);
+        return result.rowCount;
+
+        }else{
+            let sql = "update usernames set count = count + 1 where username = $1";
+            let result = await pool.query(sql)
+            return result.rowCount
+        }
+
+    }
+    let updateCounter=(name)=>{
+        
+
+    }
+
+    let displayGreetings = async() => {
+
+        let message = getLanguage() + getName();
+        return message;
+    }
+    let deleteNames = async()=>{
+        let result = await pool.query('delete from usernames ');
+        console.log(result.rows);
+        console.log(result.rowCount);
+        return result.rows;
+    }
+let nameList = async()=>{
+    let names = await pool.query('select username from usernames ');
+   console.log(names.rows)
+    return names.rows;
+}
+    return {
+        saveNames,
+        getName,
+        countNames,
+        setLanguage,
+        getLanguage,
+        displayGreetings,
+        nameList,
+        deleteNames,
+    }
+}
+
+
+
 
