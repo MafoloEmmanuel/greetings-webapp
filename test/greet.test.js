@@ -15,15 +15,48 @@ pool.on('connect', ()=>{
     console.log('database connection has started')
 })
 
-describe('should get a name', async()=>{
-    it('get name set', async()=>{
-        let greet = Greetings(pool);
-        await greet.setUser('emma'  );
-        
-        let get = await greet.getUser()
-        assert.equal('emma', get)
-
+describe('Database test', async()=>{
+    beforeEach(async()=>{
+        console.log('******')
+        await pool.query('delete from usernames');
     })
+    it('get count when there is no name  greeted', async()=>{
+
+       let greet = Greetings(pool);
+
+      let get= await greet.getAllUsers()
+       assert.equal(0,get.length)
+
+    });
+    it('get count when there is one name  greeted', async()=>{
+
+        let greet = Greetings(pool);
+        await greet.checkIt('imma', 'Hello')
+       let get= await greet.getAllUsers()
+        assert.equal(1,get.length)
+ 
+     })
+     it('should get a count for two names',async()=>{
+        let greet = Greetings(pool);
+        await greet.checkIt('imma', 'Hello');
+        await greet.checkIt('ladi', 'Hello');
+
+let get = await greet.countUsers();
+assert.equal(2,get)
+
+     })
+     it('should get a count for two names',async()=>{
+        let greet = Greetings(pool);
+        await greet.checkIt('imma', 'Hello');
+        await greet.checkIt('imma', 'Dumela');
+
+        await greet.checkIt('ladi', 'Hello');
+
+let get = await greet.countUsers();
+assert.equal(2,get)
+
+     })
+     
 })
 /*
 describe('Greetings with routes testing', function(){

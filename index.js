@@ -71,7 +71,6 @@ app.get("/",async (req, res)=> {
         getCounter:   count
     })   
 })
-
 app.post('/greetings',  async(req, res)=> {
    try{ let userName=  req.body.user;
    let language= req.body.language;
@@ -83,7 +82,6 @@ app.post('/greetings',  async(req, res)=> {
     } else if (!language) {
         req.flash('info', 'Please select a language!');
         res.render('index');
-
     } else if (!user) {
         req.flash('info', 'Please enter a name!');
         res.render('index');
@@ -92,10 +90,13 @@ app.post('/greetings',  async(req, res)=> {
         res.render('index');
     } else {
        let isLanguage= greetingsInsta.setLanguage(language);
-     let count = await greetingsInsta.countUsers();
 
-req.flash('greetingsMessage', isLanguage + " " + userName)
-   res.render('index',{
+req.flash('greetingsMessage', isLanguage + " " + user)
+ 
+await greetingsInsta.checkIt(userName,isLanguage);
+let count = await greetingsInsta.countUsers();
+
+res.render('index',{
        getCounter: count
    })
     }
@@ -118,10 +119,11 @@ app.get('/greeted', async (req, res) => {
 })
 app.get('/counter/:greetedPerson', async (req, res) => {
     const greetedPerson = req.params.greetedPerson;
-    let result = await greetingsInsta.nameList(greetedPerson)
+    let result = await greetingsInsta.countEach(greetedPerson)
+
     res.render('usernameGreeted', {
         greeted: greetedPerson,
-        getCounter: result
+        countGreetedTimes: result
         
     })
 
