@@ -32,12 +32,12 @@ module.exports = (pool)=>{
      }
    let getAllUsers=async()=>{
        let result = await pool.query("select * from usernames");
-       console.log(result.rows[0])
+      // console.log(result.rows[0])
        return result.rows;
    }
    let countUsers=async()=>{
        let result = await pool.query('select * from usernames');
-       console.log(result.rowCount);
+      // console.log(result.rowCount);
        return result.rowCount
    }
    
@@ -45,12 +45,10 @@ module.exports = (pool)=>{
        let result = await pool.query("update usernames set count = $1 where username = $1",[count,username]);
        return result.rows.rowCount
    }
-   let getGreetings=()=>{
-       return getLanguage()+ getUser() 
-   }
+   
    let nameList = async()=>{
     let names = await pool.query('select username from usernames ');
-   console.log(names.rows)
+   //console.log(names.rows)
     return names.rows;
 }
    let deleteUsers= async()=>{
@@ -61,7 +59,7 @@ return result.rows
    let countEach = async(username)=>{
     let user = await pool.query('select * from usernames where username=$1',[username])
        let result = user.rows[0].count;
-       console.log(result)
+      // console.log(result)
        return result
    }
   let checkIt=async(username, language) =>{
@@ -84,7 +82,6 @@ return result.rows
        getLanguage,
        setLanguage,
        deleteUsers,
-       getGreetings,
        checkIt,
        nameList,
        countEach
