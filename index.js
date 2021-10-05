@@ -4,18 +4,7 @@ const flash = require('express-flash')
 const session = require('express-session')
 
 const app = express();
-
-
 const {Pool}= require('pg');
- /*const pool = new Pool({
-     host: "localhost",
-     port : 5432,
-     user: "codex",
-     password: "201735469",
-     database : "codexdb"
-
- })
- */
  
  let useSSL =false;
  let local = process.env.LOCAL || false;
@@ -29,17 +18,11 @@ const {Pool}= require('pg');
          connectionString: connectionString,
        ssl:  useSSL
      });
-
-
 pool.on('connect', ()=>{
     console.log('connection has started')
 })
-
 const Greetings = require('./Greetings')
 const greetingsInsta = Greetings(pool);
-
-//const greetInsta = GreetingEvent(client)
-
 
 const handlebarSetup = exphbs({
     partialsDir: "./views/partials",
@@ -62,8 +45,6 @@ app.use(flash());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-
 
 app.get("/",async (req, res)=> {
      let count = await greetingsInsta.countUsers();
@@ -105,15 +86,11 @@ res.render('index',{
     console.log(err)
 }
 
-
-
-
 })
 app.get('/greeted', async (req, res) => {
 
     res.render('greeted', {
         greetedNames: await greetingsInsta.getAllUsers(),
-        
     });
 
 })

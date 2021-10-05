@@ -65,8 +65,8 @@ return result.rows
   let checkIt=async(username, language) =>{
     const user = await getUser(username);
     if (user.length !== 0) {
-        let countIncrease = user[0].count + 1;
-        await update(countIncrease, language, username);
+       // let countIncrease = user[0].count + 1;
+        await update(language, username);
     } else  {
 
 
