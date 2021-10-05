@@ -19,26 +19,21 @@ describe('Database test', async () => {
     beforeEach(async () => {
         console.log('******')
         await pool.query('delete from usernames');
-    })
+    });
     let greet = Greetings(pool);
     it('get count when there is no name  greeted', async () => {
-
-        let greet = Greetings(pool);
-
         let get = await greet.getAllUsers()
         assert.equal(0, get.length)
 
     });
     it('get count when there is one name  greeted', async () => {
 
-        let greet = Greetings(pool);
         await greet.checkIt('imma', 'Hello')
         let get = await greet.getAllUsers()
         assert.equal(1, get.length)
 
     })
     it('should get a count for two names', async () => {
-        let greet = Greetings(pool);
         await greet.checkIt('imma', 'Hello');
         await greet.checkIt('imma', 'Dumela');
 
@@ -66,13 +61,7 @@ describe('Database test', async () => {
         let getCount = await greet.countUsers();
         assert.equal(3, getCount)
     });
-    it('should to be able to return the name of the user greeted', async function () {
-        const greetings = Greetings(pool);
-        await greetings.checkIt('potego', 'Dumela');
-        await greetings.checkIt('leiti', 'Hello');
-        let results = await greetings.getUser('potego');
-        assert.equal('potego', results);
-    });
+   
 
 
 
