@@ -80,7 +80,9 @@ describe('Database test', async () => {
      });
    
 
-
+     after(function(){
+        pool.end();
+    });
 
 })
 
