@@ -62,6 +62,23 @@ describe('Database test', async () => {
         assert.equal(3, getCount)
     });
    
+    
+    it('should to be able to set the language to english and return "Hello"', async()=> {
+       greet.setLanguage('english')
+        let results =  greet.getLanguage();
+        assert.equal('Hello ', results);
+    });
+    it('should to be able to set the language to sepedi and return "Dumela"', async()=> {
+        greet.setLanguage('sepedi')
+         let results =  greet.getLanguage();
+         assert.equal('Dumela ', results);
+     });
+     it('should to be able to set the language to isizulu and return "Sawubona"', async()=> {
+        greet.setLanguage('zulu')
+         let results =  greet.getLanguage();
+         assert.equal('Sawubona ', results);
+     });
+   
 
 
 

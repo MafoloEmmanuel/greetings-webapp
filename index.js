@@ -21,8 +21,10 @@ const {Pool}= require('pg');
 pool.on('connect', ()=>{
     console.log('connection has started')
 })
-const Greetings = require('./Greetings')
+const Greetings = require('./Greetings');
+const Greet_routes = require('./routes/Greet_routes');
 const greetingsInsta = Greetings(pool);
+const greetRoute = Greet_routes(greetingsInsta)
 
 const handlebarSetup = exphbs({
     partialsDir: "./views/partials",
@@ -46,72 +48,12 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get("/",async (req, res)=> {
-     let count = await greetingsInsta.countUsers();
-    res.render("index", {
-        getCounter:   count
-    })   
-})
-app.post('/greetings',  async(req, res)=> {
-   try{ let userName=  req.body.user;
-   let language= req.body.language;
-   user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
-
-    if(!language && !user) {
-        req.flash('info', "Please enter a name and select a language!");
-        res.render('index');
-    } else if (!language) {
-        req.flash('info', 'Please select a language!');
-        res.render('index');
-    } else if (!user) {
-        req.flash('info', 'Please enter a name!');
-        res.render('index');
-    } else if (!user.match(/^[a-zA-Z]{1,15}$/gi)) {
-        req.flash('info', 'Please enter a valid name!');
-        res.render('index');
-    } else {
-       let isLanguage= greetingsInsta.setLanguage(language);
-
-req.flash('greetingsMessage', isLanguage + " " + user)
- 
-await greetingsInsta.checkIt(userName,isLanguage);
-let count = await greetingsInsta.countUsers();
-
-res.render('index',{
-       getCounter: count
-   })
-    }
-
-}catch(err){
-    console.log(err)
-}
-
-})
-app.get('/greeted', async (req, res) => {
-
-    res.render('greeted', {
-        greetedNames: await greetingsInsta.getAllUsers(),
-    });
-
-})
-app.get('/counter/:greetedPerson', async (req, res) => {
-    const greetedPerson = req.params.greetedPerson;
-    let result = await greetingsInsta.countEach(greetedPerson)
-
-    res.render('usernameGreeted', {
-        greeted: greetedPerson,
-        countGreetedTimes: result
-        
-    })
-
-})
-app.post('/reset', async(req,res)=>{
-    await greetingsInsta.deleteUsers();
-    res.redirect('/')
-
-})
+app.get("/",greetRoute.main);
+app.post('/greetings',greetRoute.showGreetings);
+app.get('/greeted', greetRoute.showGreeted);
+app.get('/counter/:greetedPerson',greetRoute.countEachGreeted);
+app.post('/reset', greetRoute.resetCount);
 const PORT = process.env.PORT || 3012;
-
 app.listen(PORT, function () {
-    console.log('starting on port ', PORT)
+    console.log('starting on port ', PORT);
 })

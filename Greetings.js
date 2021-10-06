@@ -1,4 +1,5 @@
 module.exports = (pool)=>{
+    var lang;
     let setLanguage= (language)=> {
         if (language === "english") {
             lang = "Hello ";
@@ -68,8 +69,6 @@ return result.rows
        // let countIncrease = user[0].count + 1;
         await update(language, username);
     } else  {
-
-
         await setUser(username);
     }
 }
