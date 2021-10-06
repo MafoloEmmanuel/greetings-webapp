@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  -"12.22.3"
+  services: 
+  -postgresql
+  env:
+   -DATABASE_URL=postgresql://codex:201735469@localhost:5432/codexdb
+   before_script:
+  - psql -c 'create database codexdb;' -U postgres
+  - psql -U postgres -d codexdb -a -f usernames.sql
