@@ -11,8 +11,8 @@ body{
   border: 1px solid rgb(214, 125, 147);
   
 }
-.back{
-  float: inline-start;
+.greeted{
+  align-items: inline-start;
 }
  .container .heading{
   background-color: white;

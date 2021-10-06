@@ -1,12 +1,16 @@
 <div class="container">
     <div class="heading">
-<h1>How many times each username has been greeted</h1>
+<h1>Greeted Times</h1>
     </div>
-    <h5> Hello, {{greeted}} has been greeted {{countGreetedTimes}}  times</h5>
+    <h5 style="font-size:larger"> Hello, {{greeted}} has been greeted {{countGreetedTimes}}  time(s)</h5>
             
-       <div class="clickButtons">
-               <form action="/" method="get"><button type="submit" name="button">Home</button></form>
-             <form action="/greeted" method="get"><button type="submit" name="button">Back</button></form>
+       <div class="">
+           <p>
+<a href="/greeted">Back</a>
+
+               <a href="/">Home</a>
+           </p>
+             
                
             </div>
 </div>
