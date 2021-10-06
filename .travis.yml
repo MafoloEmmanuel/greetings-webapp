@@ -6,7 +6,7 @@ node_js:
   env:
    - DATABASE_URL=postgresql://localhost:5432/codexdb
    before_script:
-  - psql -c 'create database codexdb;' -U postgres
-  - psql -U postgres -d codexdb -a -f usernames.sql
+  - psql -c 'create database codexdb;' -codex
+  - psql -U codex -d codexdb -a -f usernames.sql
 
 
