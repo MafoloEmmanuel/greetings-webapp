@@ -3,11 +3,17 @@ const Greetings = require('../Greetings');
 const pg = require('pg');
 const Pool = pg.Pool;
 
+let useSSL =false;
+ let local = process.env.LOCAL || false;
+ if(process.env.DATABASE_URL && !local){
+     useSSL = { rejectUnauthorized: false };
+ }
 //choosing a db connection 
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:201735469@localhost:5432/codexdb'
 //connect with a connection pool
 const pool = new Pool({
     connectionString: connectionString,
+    ssl: useSSL
 });
 
 
@@ -80,7 +86,7 @@ describe('Database test', async () => {
      });
    
 
-     after(function(){
+     after(()=>{
         pool.end();
     });
 
