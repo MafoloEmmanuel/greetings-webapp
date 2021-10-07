@@ -26,13 +26,15 @@ describe('Database test', async () => {
         console.log('******')
         await pool.query('delete from usernames');
     });
-    let greet = Greetings(pool);
     it('get count when there is no name  greeted', async () => {
+    let greet = Greetings(pool);
+     
         let get = await greet.getAllUsers()
         assert.equal(0, get.length)
 
     });
     it('get count when there is one name  greeted', async () => {
+        let greet = Greetings(pool);
 
         await greet.checkIt('imma', 'Hello')
         let get = await greet.getAllUsers()
@@ -40,6 +42,8 @@ describe('Database test', async () => {
 
     })
     it('should get a count for two names', async () => {
+        let greet = Greetings(pool);
+    
         await greet.checkIt('imma', 'Hello');
         await greet.checkIt('imma', 'Dumela');
 
@@ -51,6 +55,8 @@ describe('Database test', async () => {
     })
     
     it("Show that three users are greeted", async () => {
+    let greet = Greetings(pool);
+      
         await greet.checkIt('imma', 'Dumela');
         await greet.checkIt('ladi', 'Hello');
         await greet.checkIt('quincy', 'Dumela');
@@ -58,6 +64,9 @@ describe('Database test', async () => {
         assert.equal(3, getCount)
     });
     it("Show that three users are greeted even when Imma is greeted 3 times ", async () => {
+    let greet = Greetings(pool);
+       
+       
         await greet.checkIt('imma', 'Dumela');
         await greet.checkIt('imma', 'Dumela');
         await greet.checkIt('imma', 'Dumela');
@@ -70,16 +79,24 @@ describe('Database test', async () => {
    
     
     it('should to be able to set the language to english and return "Hello"', async()=> {
-       greet.setLanguage('english')
+      
+    let greet = Greetings(pool);
+      
+        greet.setLanguage('english')
         let results =  greet.getLanguage();
         assert.equal('Hello ', results);
     });
     it('should to be able to set the language to sepedi and return "Dumela"', async()=> {
+    let greet = Greetings(pool);
+        
         greet.setLanguage('sepedi')
          let results =  greet.getLanguage();
          assert.equal('Dumela ', results);
      });
      it('should to be able to set the language to isizulu and return "Sawubona"', async()=> {
+    let greet = Greetings(pool);
+       
+       
         greet.setLanguage('zulu')
          let results =  greet.getLanguage();
          assert.equal('Sawubona ', results);
