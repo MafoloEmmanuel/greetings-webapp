@@ -108,4 +108,3 @@ describe('Database test', async () => {
     });
 
 })
-
