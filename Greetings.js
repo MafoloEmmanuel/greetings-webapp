@@ -42,8 +42,8 @@ module.exports = (pool)=>{
        return result.rowCount
    }
    
-   let update= async(username,count)=>{
-       let result = await pool.query("update usernames set count = $1 where username = $1",[count,username]);
+   let update= async(username)=>{
+       let result = await pool.query("update usernames set count = count+1 where username = $1",[username]);
        return result.rows.rowCount
    }
    
@@ -58,9 +58,9 @@ return result.rows
 
    }
    let countEach = async(username)=>{
-    let user = await pool.query('select * from usernames where username=$1',[username])
+    let user = await pool.query('select * from usernames where username=$1 ',[username])
        let result = user.rows[0].count;
-      // console.log(result)
+       console.log(result)
        return result
    }
   let checkIt=async(username, language) =>{
