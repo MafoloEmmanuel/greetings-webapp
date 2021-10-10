@@ -14,7 +14,7 @@ catch(err){
 let showGreetings=async(req,res,next)=>{
     try{ let userName=  req.body.user;
         let language= req.body.language;
-        user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
+        var user = userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase();
      
          if(!language && !user) {
              req.flash('info', "Please enter a name and select a language!");
@@ -33,7 +33,7 @@ let showGreetings=async(req,res,next)=>{
      
      req.flash('greetingsMessage', isLanguage + " " + user)
       
-     await greetingsInsta.checkIt(userName,isLanguage);
+     await greetingsInsta.checkIt(user,isLanguage);
      let count = await greetingsInsta.countUsers();
      
      res.render('index',{
