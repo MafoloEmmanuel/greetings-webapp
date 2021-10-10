@@ -36,7 +36,7 @@ describe('Database test', async () => {
     it('get count when there is one name  greeted', async () => {
         let greet = Greetings(pool);
 
-        await greet.checkIt('imma', 'Hello')
+        await greet.checkIt('imma')
         let get = await greet.getAllUsers()
         assert.equal(1, get.length)
 
@@ -44,10 +44,10 @@ describe('Database test', async () => {
     it('should get a count for two names', async () => {
         let greet = Greetings(pool);
     
-        await greet.checkIt('imma', 'Hello');
-        await greet.checkIt('imma', 'Dumela');
+        await greet.checkIt('imma');
+        await greet.checkIt('imma');
 
-        await greet.checkIt('ladi', 'Hello');
+        await greet.checkIt('ladi');
 
         let get = await greet.countUsers();
         assert.equal(2, get)
@@ -57,9 +57,9 @@ describe('Database test', async () => {
     it("Show that three users are greeted", async () => {
     let greet = Greetings(pool);
       
-        await greet.checkIt('imma', 'Dumela');
-        await greet.checkIt('ladi', 'Hello');
-        await greet.checkIt('quincy', 'Dumela');
+        await greet.checkIt('imma');
+        await greet.checkIt('ladi');
+        await greet.checkIt('quincy');
         let getCount = await greet.countUsers()
         assert.equal(3, getCount)
     });
@@ -67,12 +67,12 @@ describe('Database test', async () => {
     let greet = Greetings(pool);
        
        
-        await greet.checkIt('imma', 'Dumela');
-        await greet.checkIt('imma', 'Dumela');
-        await greet.checkIt('imma', 'Dumela');
+        await greet.checkIt('imma');
+        await greet.checkIt('imma');
+        await greet.checkIt('imma');
 
-        await greet.checkIt('ladi', 'Hello');
-        await greet.checkIt('quincy', 'Dumela');
+        await greet.checkIt('ladi');
+        await greet.checkIt('quincy');
         let getCount = await greet.countUsers();
         assert.equal(3, getCount)
     });
