@@ -70,8 +70,12 @@ let countEachGreeted = async(req,res,next)=>{
     }
 }
 let resetCount = async(req,res,next)=>{
+
     try {
+        req.flash('reset', "The counter is successfully reset to zero ! ")
+      
         await greetingsInsta.deleteUsers();
+
         res.redirect('/')
     } catch (error) {
         next(error)

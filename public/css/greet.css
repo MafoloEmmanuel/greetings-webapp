@@ -40,6 +40,11 @@ input , button{
 }
 .warning{
   color: crimson;
+  font-weight: bolder;
+}
+.reset{
+  color: darkgreen;
+  font-weight: bolder;
 }
 @media (max-width: 800px){
 .container{
