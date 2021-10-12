@@ -18,7 +18,10 @@ let showGreetings=async(req,res,next)=>{
      
          if(!language && !user) {
              req.flash('info', "Please enter a name and select a language!");
+             req.setTimeout(3000)
+
              res.render('index');
+
          } else if (!language) {
              req.flash('info', 'Please select a language!');
              res.render('index');
